@@ -31,5 +31,8 @@ export class lang extends BasePage {
           return false;
       } 
   
-  };
+    };
+    async closeBrowser() {
+        await this.driver.close();
+    };
 };

@@ -1,13 +1,13 @@
 import { Builder, Capabilities, WebDriver, By } from 'selenium-webdriver';
-const chromedriver = require('chromedriver');
-import { card } from './getCardPageObject';
+import { getcard } from './newGetCardPO';
+const fs = require('fs');
 
 describe('getCard', () => {
     let driver: WebDriver;
-    const c = new card();
+    const c = new getcard();
 
     beforeAll(async () => {
-        driver = new Builder().withCapabilities(Capabilities.chrome()).build();
+        driver = await new Builder().withCapabilities(Capabilities.chrome()).build();
     });
 
     beforeEach(async () => {
@@ -21,17 +21,14 @@ describe('getCard', () => {
     test('Testing get card', async () => {
         await c.navigate();
         await c.click(c.getCardBtn);
-        await sleep(1000)
         await c.tabs();
 
-        await c.setInput(c.firstName,'John');
-        await c.setInput(c.lastName, "Dutton");
-        
+        await c.setInput(c.firstName, 'John');
+        await c.setInput(c.lastName, 'Dutton');
 
         await c.click(c.dobMonthAnswer);
         await c.click(c.dobDayAnswer);
         await c.click(c.dobYearAnswer);
-        await sleep(2000); 
 
         await c.setInput(c.address, '321 Nut Tree Rd');
         await c.setInput(c.city, 'Vacaville');
@@ -47,15 +44,17 @@ describe('getCard', () => {
 
         await c.setInput(c.passcode, '*soloProject2');
         await c.setInput(c.passcodeConf, '*soloProject2');
-        await c.click(c.branch);
-        await sleep(3000);
+        await c.click(c.branchAnswer);
+        await fs.writeFile(`${__dirname}/getCardTest.png`,
+        await c.driver.takeScreenshot(), "base64", 
+        (e) => {
+            if (e) console.error(e)
+            else console.log('Image saved successfully')
+        }); 
 
-        await c.click(c.captchaBtn);
-        await sleep(2000)
+        await sleep(6000);
         await c.click(c.acceptBtn);
-
-        await sleep(2000);
-
+        await c.driver.quit()
     });
 
     async function sleep(ms: number) {

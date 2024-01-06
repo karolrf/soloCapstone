@@ -1,6 +1,7 @@
 import { By, until } from 'selenium-webdriver';
 import { BasePage } from './basePage';
 
+
 export class bookRoom extends BasePage {
     
     bookRoomBtn: By = By.xpath("//span[@class='link-inner' and text()='Book a Room']");
@@ -45,4 +46,7 @@ export class bookRoom extends BasePage {
             return false;
         }
     } 
+    async closeBrowser() {
+        await this.driver.close();
+    };
 }

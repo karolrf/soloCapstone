@@ -1,6 +1,7 @@
 import { Builder, Capabilities, WebDriver, By } from 'selenium-webdriver';
 const chromedriver = require('chromedriver');
 import { SL } from './searchWPageObject';
+const fs = require('fs');
 
 describe('Search website', () => {
     let driver: WebDriver;
@@ -22,10 +23,16 @@ describe('Search website', () => {
         await solano.navigate();
         await solano.setInput(solano.search, 'storytime');
         await solano.click(solano.goBtn);
-        await sleep(2000);
+        await fs.writeFile(`${__dirname}/searchWebsite.png`,
+        await solano.driver.takeScreenshot(), "base64", 
+        (e) => {
+            if (e) console.error(e)
+            else console.log('Image saved successfully')
+        }); 
 
         const verifyResults = await solano.verifyResults();
         expect(verifyResults).toBe(true);
+        const closeBrowser = await solano.closeBrowser();
     });
 
     async function sleep(ms: number) {

@@ -1,11 +1,11 @@
 import { Builder, Capabilities, WebDriver, By } from 'selenium-webdriver';
 const chromedriver = require('chromedriver');
-import { bookRoom } from './bookRoomPageObject';
+import { SL } from './eventsPageObject';
 const fs = require('fs');
 
-describe('Book a room', () => {
+describe('Search website', () => {
     let driver: WebDriver;
-    const br = new bookRoom();
+    const solano = new SL();
 
     beforeAll(async () => {
         driver = new Builder().withCapabilities(Capabilities.chrome()).build();
@@ -19,31 +19,27 @@ describe('Book a room', () => {
         await driver.quit();
     });
 
-    test('Book a room', async () => {
-        await br.navigate();
-        await br.click(br.doneBtn);
-        await sleep(2000);
-        await br.click(br.date);
-        await sleep(2000);
-        await br.click(br.timeS);
-        await br.click(br.timeE);
-        await sleep(2000);
-        await br.click(br.addBtn);
-        await fs.writeFile(`${__dirname}/bookARoom.png`,
-        await br.driver.takeScreenshot(), "base64", 
+    test('Testing event calendar', async () => {
+        await solano.navigate();
+        await solano.click(solano.eventsBtn);
+        await sleep (3000);
+        await solano.click(solano.dateBtn);
+        /*await solano.click(solano.dayS);
+        await solano.click(solano.dataRangeEnd);
+        await solano.click(solano.dayE);
+        await fs.writeFile(`${__dirname}/eventCalendar.png`,
+        await solano.driver.takeScreenshot(), "base64", 
         (e) => {
             if (e) console.error(e)
             else console.log('Image saved successfully')
         }); 
-        
-        
-        const verifyResults = await br.verifyResults();
+
+        const verifyResults = await solano.verifyResults();
         expect(verifyResults).toBe(true);
-        const closeBrowser = await br.closeBrowser();
+        const closeBrowser = await solano.closeBrowser(); */
     });
 
     async function sleep(ms: number) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
-  
 });

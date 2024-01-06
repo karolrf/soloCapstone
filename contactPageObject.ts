@@ -8,6 +8,7 @@ export class contact extends BasePage {
     email: By = By.id('wpforms-699-field_1');
     message: By = By.id('wpforms-699-field_2');
     goBtn: By = By.xpath('//button[@id="wpforms-submit-699"]');
+    results: By = By.xpath("//div[@class='wpforms-confirmation-container-full wpforms-confirmation-scroll' and @id='wpforms-confirmation-699']");
 
     constructor() {
         super({ url: 'https://solanolibrary.com/' });
@@ -24,14 +25,17 @@ export class contact extends BasePage {
         await this.driver.findElement(this.message).sendKeys(message);
         await this.driver.findElement(this.goBtn).click();
     };
-    /* async verifyResults(): Promise<boolean> {
+     async verifyResults(): Promise<boolean> {
       try {
           const resultsElement = await this.driver.wait(until.elementLocated(this.results), 5000);
           const resultsText = await resultsElement.getText();
-          return resultsText.includes('results'); 
+          return resultsText.includes('Thanks for contacting us!'); 
       } catch (error) {
           return false;
       } 
   
-  };*/
+  };
+  async closeBrowser() {
+    await this.driver.close();
+};
 };

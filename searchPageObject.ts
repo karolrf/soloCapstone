@@ -31,6 +31,9 @@ export class SL extends BasePage {
       } catch (error) {
           return false;
       }
-  
+      
   };
+    async closeBrowser() {
+        await this.driver.close();
+    };
 };

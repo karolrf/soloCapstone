@@ -30,7 +30,9 @@ export class SL extends BasePage {
           return resultsText.includes('On shelf at Benicia Public Library'); 
       } catch (error) {
           return false;
-      }
-  
-  };
+      } 
+    };
+    async closeBrowser() {
+        await this.driver.close();
+    };
 };
